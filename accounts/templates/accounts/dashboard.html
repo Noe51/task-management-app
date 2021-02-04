@@ -1,0 +1,43 @@
+{% extends 'accounts/main.html'%}
+{% load static %}
+
+{% block content%}
+
+<div>
+    {% for task in my_tasks%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <h5 class="card-title">{{task.title}}</h5>
+                    <h6 class="text-muted">{{task.client.name}} / {{task.fund.name}}</h6>
+                    <!-- <p class="card-text sm"></p> -->
+                    <!-- <p>{% for domain in mission.competences_required.all %} • {{ domain }} {% endfor %}</p>
+                    <div class="card-body">
+                        <ul>
+                            <li class="card-text font-weight-bold">Date de début de mission : {{mission.start_date}}
+                            </li>
+
+                        </ul>
+                        <a href="#" class="btn btn-info">Voir plus</a>
+
+
+                    </div>
+                    <p><small class="card-text sm">{{task.date_created}}</small></p> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- {{task.title}}
+    {{task.client_name}}
+    {{task.fund_name}}
+    {{task.description}}
+    {{task.periodicity}}
+    {{task.time_to_complete}}
+    {{task.current_advancement}}
+    {{task.assignee.first_name}}
+    {{task.reporter.first_name}} -->
+    {% endfor %}
+</div>
+{% endblock content%}

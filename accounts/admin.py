@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CustomUser
+from .models import CustomUser, Analyst, Task, Client, ClientCategory, FundCategory, Fund
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 
@@ -22,3 +22,9 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 admin.site.register(CustomUser, CustomUserAdmin)
+admin.site.register(Analyst)
+admin.site.register(Client)
+admin.site.register(ClientCategory)
+admin.site.register(Fund)
+admin.site.register(FundCategory)
+admin.site.register(Task)
