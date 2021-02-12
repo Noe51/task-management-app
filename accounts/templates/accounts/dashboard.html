@@ -3,22 +3,24 @@
 
 {% block content%}
 
+<div class="row">
+    <div class="col-md-12 mx-auto container-fluid">
+        <form action="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="input-group">
+                    <!-- <input type="text" class="form-control" placeholder="" aria-label="Todo" aria-describedby="add-btn"
+                        autofocus> -->
+                    {{form.title}}
 
-
-<form action="POST">
-    {% csrf_token %}
-    <div class="form-group">
-        <div class="input-group">
-
-            <input type="text" class="form-control" placeholder="" aria-label="Todo" aria-describedby="add-btn"
-                autofocus>
-            <span class="input-group-btn">
-                <button type="submit" class="btn btn-primary" id="add-btn">Add</button>
-            </span>
-        </div>
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary" id="add-btn">Add</button>
+                    </span>
+                </div>
+            </div>
+        </form>
     </div>
-</form>
-
+</div>
 <br>
 <div>
     {% for task in my_tasks%}
@@ -34,7 +36,7 @@
                         <span class="text-muted">{{task.client.name}}/ {{task.fund.name}}</span>
 
                     </div>
-                    
+
 
                 </div>
 
@@ -43,8 +45,8 @@
         </div>
     </div>
 </div>
-            <!-- <p class="card-text sm"></p> -->
-            <!-- <p>{% for domain in mission.competences_required.all %} • {{ domain }} {% endfor %}</p>
+<!-- <p class="card-text sm"></p> -->
+<!-- <p>{% for domain in mission.competences_required.all %} • {{ domain }} {% endfor %}</p>
                     <div class="card-body">
                         <ul>
                             <li class="card-text font-weight-bold">Date de début de mission : {{mission.start_date}}
@@ -57,7 +59,7 @@
                     </div>
                     <p><small class="card-text sm">{{task.date_created}}</small></p> -->
 
-   
+
 <!-- {{task.title}}
     {{task.client_name}}
     {{task.fund_name}}
