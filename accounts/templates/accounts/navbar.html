@@ -19,6 +19,7 @@
 
     </ul> -->
   </div>
-  <span><a class='ml-2' href="{% url 'home'%}"> Déconnexion</a></span>
+  <span class='text-white'>{{request.user.analyst.first_name}}</span>
+  <span><a class='ml-2' href="{% url 'home'%}"> Logout </a></span>
 </nav>
 

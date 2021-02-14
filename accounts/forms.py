@@ -26,7 +26,7 @@ class CustomUserChangeForm(UserChangeForm):
 
 class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-            super(TaskForm,self).__init__(*args, **kwargs)
+            super().__init__(*args, **kwargs)
             self.helper = FormHelper()
             self.helper.layout = Layout(
                 Row(
@@ -42,7 +42,7 @@ class TaskForm(forms.ModelForm):
                     Column('reporter', css_class='form-group col-md-2 mb-2'),
                     css_class='form-row'
                 ),
-                Submit('submit', 'Create task', css_class='btn btn-block btn-sm btn-primary'),
+                Submit('update', 'Create task', css_class='btn btn-block btn-sm btn-primary'),
 
             ) 
 

@@ -9,19 +9,19 @@
 <br>
 
 
-            <form method="POST" action="/" enctype="">
+            <form method="POST" action="" enctype="">
                 {% csrf_token %}
-                
+                {{form}}
              
                 <!-- {{ formset.management_form }} -->
 
-                {% crispy form %}  
+                <!-- {% crispy form %}   -->
                 <hr>
                 <!-- {% for form in formset %}
                     {{form}}
                     <hr>
                 {% endfor%} -->
-                <input class="btn btn-primary btn-block"type="submit" name="Submit">
+                <input class="btn btn-primary btn-block"type="submit" name="submit">
 
             </form>
         

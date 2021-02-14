@@ -116,5 +116,10 @@ class Task(models.Model):
     assignee = models.ForeignKey(Analyst, blank=True, null=True, on_delete=models.PROTECT, related_name='%(class)s_tasks_assigned')
     reporter = models.ForeignKey(Analyst, blank=True, null=True, on_delete=models.PROTECT, related_name='%(class)s_tasks_reported')
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def progress(self):
+        progress = self.current_advancement / self.time_to_complete *100
+        return progress
+
     def __str__(self):
         return str(self.id)
