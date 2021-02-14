@@ -1,74 +1,69 @@
 {% extends 'accounts/main.html'%}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block content%}
 
 <div class="row">
-    <div class="col-md-12 mx-auto container-fluid">
-        <form action="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <div class="input-group">
-                    <!-- <input type="text" class="form-control" placeholder="" aria-label="Todo" aria-describedby="add-btn"
-                        autofocus> -->
-                    {{form.title}}
 
-                    <span class="input-group-btn">
-                        <button type="submit" class="btn btn-primary" id="add-btn">Add</button>
-                    </span>
-                </div>
-            </div>
-        </form>
+    <div class="col-md-10 mx-auto container-fluid">
+        <div id="display-button">
+            <button onclick="unhideTaskForm()" class="btn btn-outline-primary btn-sm btn-block" >Create new
+                task</button>
+                <hr>
+        </div>
+        
+        
+        <div style="display: none;" id="create-task">
+            <form method="POST" action="" enctype="">
+                {% csrf_token %}
+                {% crispy form %}
+                <br>
+
+
+                <hr>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="row" id="display-tasks">
+    <div class="col-md-10  mx-auto">
+        <div class="card-body">
+            <form method="get">
+                {{myFilter.form}}
+                <button class="btn btn-secondary btn-sm" type="submit">Search</button>
+
+            </form>
+        </div>
     </div>
 </div>
 <br>
 <div>
     {% for task in my_tasks%}
     <div class="row">
-        <div class="col-md-12 mx-auto container-fluid">
-            <div class="input-group mb-3 card">
-                <div class="input-group-prepend ">
+        <div class="col-md-10 mx-auto container-fluid">
+            <div class="input-group mb-3 ">
+                <div class="input-group-prepend">
                     <div class="input-group-text">
                         <input type="checkbox" aria-label="Checkbox for following text input">
                     </div>
-                    <div class="card-body">
-                        <a class="card-title" href="{% url 'task-details' task.id %}">{{task.title}}</a>
-                        <span class="text-muted">{{task.client.name}}/ {{task.fund.name}}</span>
-
-                    </div>
-
-
+                    <div class="input-group-text text-muted" id="">{{task.client.name}}</div>
+                    <div class="input-group-text text-muted" id="">{{task.fund.name}}</div>
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped" role="progressbar" style="width: 10%" aria-valuenow={{task.current_advancement}} aria-valuemin="0" aria-valuemax="{{task.time_to_complete}}"></div>
+                      </div>
                 </div>
+                    
+                <a class="form-control text-primary" href="{% url 'task-details' task.id %}">{{task.title}}</a>
+
 
             </div>
 
         </div>
     </div>
+    {% endfor %}
 </div>
-<!-- <p class="card-text sm"></p> -->
-<!-- <p>{% for domain in mission.competences_required.all %} • {{ domain }} {% endfor %}</p>
-                    <div class="card-body">
-                        <ul>
-                            <li class="card-text font-weight-bold">Date de début de mission : {{mission.start_date}}
-                            </li>
+</div>
 
-                        </ul>
-                        <a href="#" class="btn btn-info">Voir plus</a>
-
-
-                    </div>
-                    <p><small class="card-text sm">{{task.date_created}}</small></p> -->
-
-
-<!-- {{task.title}}
-    {{task.client_name}}
-    {{task.fund_name}}
-    {{task.description}}
-    {{task.periodicity}}
-    {{task.time_to_complete}}
-    {{task.current_advancement}}
-    {{task.assignee.first_name}}
-    {{task.reporter.first_name}} -->
-{% endfor %}
 </div>
 {% endblock content%}

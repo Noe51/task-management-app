@@ -4,19 +4,19 @@
 
 
 {% block content %}
-<!-- {% load crispy_forms_tags %} -->
+{% load crispy_forms_tags %}
 <br>
 <br>
 
 
-            <form method="POST" action="" enctype="">
+            <form method="POST" action="/" enctype="">
                 {% csrf_token %}
                 
              
                 <!-- {{ formset.management_form }} -->
 
-                {{form|crispy}}
-               
+                {% crispy form %}  
+                <hr>
                 <!-- {% for form in formset %}
                     {{form}}
                     <hr>

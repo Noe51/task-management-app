@@ -62,6 +62,10 @@ class Client(models.Model):
     name = models.CharField(max_length=20, blank=True, null=True)
     category = models.ForeignKey(ClientCategory, on_delete=models.PROTECT, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+
+    def getfunds(self):
+        funds = Fund.objects.get(client=self)
+        return funds
     
     def __str__(self):
         return str(self.name)
@@ -76,6 +80,7 @@ class Fund(models.Model):
     category = models.ForeignKey(FundCategory, on_delete=models.PROTECT, blank=True, null=True)
     client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True, null=True)
     date_created = models.DateTimeField(auto_now_add=True, null=True)
+
 
     def __str__(self):
         return str(self.name)
@@ -104,7 +109,7 @@ class Task(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
     client = models.ForeignKey(Client, on_delete=models.PROTECT, blank=True, null=True)
     fund = models.ForeignKey(Fund, on_delete=models.PROTECT, blank=True, null=True)
-    description = models.TextField(max_length=1000, blank=True, null=True)
+    # description = models.TextField(max_length=1000, blank=True, null=True)
     periodicity = models.CharField(max_length=1000, blank=True, null=True)
     time_to_complete = models.FloatField()
     current_advancement = models.FloatField()

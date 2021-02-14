@@ -1,30 +1,52 @@
 from django.shortcuts import render, redirect
-from .models import Analyst, Task
+from .models import Task, Client
 from .forms import TaskForm, ClientForm, FundForm
+from .filters import TaskFilter, ClientFilter
 
 # Create your views here.
 
 def home(request):
-    current_analyst = request.user.analyst
-    my_tasks = Task.objects.filter(assignee=current_analyst)
-    print(current_analyst)
-    print(my_tasks)
+    if request.method == 'GET':
+        current_analyst = request.user.analyst
+        my_tasks = Task.objects.filter(assignee=current_analyst)
+        myFilter = TaskFilter(request.GET, queryset=my_tasks)
+        my_tasks = myFilter.qs
+        form = TaskForm({'assignee':current_analyst})
 
-    form = TaskForm()
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        current_analyst = request.user.analyst
+        form = TaskForm(request.POST, {'assignee':current_analyst})
         if form.is_valid():
-            form = TaskForm(request.POST,)
+            new_assignee = form.save(commit=False)
+            new_assignee.assignee = current_analyst
+            new_assignee.save()
             form.save()
             return redirect("/")
 
-    context={'my_tasks':my_tasks, 'form':form}
+    
+
+    context={'my_tasks':my_tasks, 'form':form, 'myFilter':myFilter}
     return render(request, 'accounts/dashboard.html',context)
 
 def check(request):
-    current_analyst = request.user.analyst
-    my_tasks = Task.objects.filter(reporter=current_analyst)
-    context={'my_tasks':my_tasks}
+    if request.method == 'GET':
+        current_analyst = request.user.analyst
+        my_tasks = Task.objects.filter(reporter=current_analyst)
+        myFilter = TaskFilter(request.GET, queryset=my_tasks)
+        my_tasks = myFilter.qs
+        form = TaskForm({'reporter':current_analyst})
+
+    if request.method == 'POST':
+        current_analyst = request.user.analyst
+        form = TaskForm(request.POST, {'reporter':current_analyst})
+        if form.is_valid():
+            new_assignee = form.save(commit=False)
+            new_assignee.assignee = current_analyst
+            new_assignee.save()
+            form.save()
+            return redirect("/")
+
+    context={'my_tasks':my_tasks, 'form':form, 'myFilter':myFilter}
     return render(request, 'accounts/dashboard.html',context)
 
 def updateTask(request,pk):
@@ -41,12 +63,16 @@ def updateTask(request,pk):
     return render(request, 'accounts/task_details.html',context) 
 
 def clients(request):
-    clients = Client.objects.get.all()
-    context={'clients':clients}
-    return render(request, 'accounts/task_details.html',context) 
+    clients = Client.objects.all()
+
+    myFilter = ClientFilter(request.GET, queryset=clients)
+    clients = myFilter.qs
+    
+    context={'clients':clients, 'myFilter':myFilter}
+    return render(request, 'accounts/clients.html',context) 
 
 def funds(request):
-    funds = Funds.objects.get.all()
+    funds = Funds.objects.all()
     context={'funds':funds}
     return render(request, 'accounts/task_details.html',context) 
 

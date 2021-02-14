@@ -25,49 +25,45 @@ class CustomUserChangeForm(UserChangeForm):
         fields = ('email',)
 
 class TaskForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+            super(TaskForm,self).__init__(*args, **kwargs)
+            self.helper = FormHelper()
+            self.helper.layout = Layout(
+                Row(
+                    Column('title', css_class='form-group col-md-12 mb-2'),
+                    css_class='form-row'
+                ),
+                Row(
+                    Column('periodicity', css_class='form-group col-md-2 mb-2'),
+                    Column('current_advancement', css_class='form-group col-md-2 mb-2'),
+                    Column('time_to_complete', css_class='form-group col-md-2 mb-2'),
+                    Column('fund', css_class='form-group col-md-2 mb-2'),
+                    Column('client', css_class='form-group col-md-2 mb-2'),
+                    Column('reporter', css_class='form-group col-md-2 mb-2'),
+                    css_class='form-row'
+                ),
+                Submit('submit', 'Create task', css_class='btn btn-block btn-sm btn-primary'),
+
+            ) 
+
 
     class Meta:
         model = Task
         fields= '__all__'
-        exclude = []
+        exclude = ['assignee']
 
         widgets = {
-                'title' : forms.TextInput(attrs={'class':"form-control", 'placeholder':"", 'aria-label':"Todo", 'aria-describedby':"add-btn" }),
-                'description' : forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Décrivez la tâche'}),
-                # 'email' : forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'nom.prenom@gmail.com'}),
-                # 'phone' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': '06000000'}),
-                # 'city' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Paris'}),
-                # 'department' : forms.NumberInput(attrs={'class': 'form-control', 'placeholder': '75'}),
-                # 'domain_of_knowledge' : forms.CheckboxSelectMultiple(),
-                # 'speciality' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Entreprise de BTP'}),
-                # 'description' : forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Dites en plus sur qui vous êtes ...'}),
-                # 'company' : forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Superconsultant S.A.S'}),
+                'title' : forms.TextInput(attrs={'class':"form-control", 'placeholder':"enter the task" }),
+                'fund' : forms.Select(attrs={'class': 'form-control'}),
+                'client' : forms.Select(attrs={'class': 'form-control'}),
+                'periodicity' : forms.TextInput(attrs={'class': 'form-control'}),
+                'time_to_complete' : forms.TextInput(attrs={'class': 'form-control'}),
+                'current_advancement' : forms.TextInput(attrs={'class': 'form-control'}),
+                'assignee' : forms.Select(attrs={'class': 'form-control'}),
+                'reporter' : forms.Select(attrs={'class': 'form-control'}),
             }
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.helper = FormHelper()
-            self.helper.layout = Layout(
-                Row(
-                    Column('title', css_class='form-group col-md-6 mb-0'),
-                    Column('description', css_class='form-group col-md-6 mb-0'),
-                    css_class='form-row'
-                ),
-                'description',
-                Row(
-                    Column('domain_of_knowledge', css_class='form-group col-md-5 mb-0'),
-                    Column('city', css_class='form-group col-md-5 mb-0'),
-                    Column('department', css_class='form-group col-md-2 mb-0'),
-                    css_class='form-row'
-                ),
-                Row(
-                    Column('phone', css_class='form-group col-md-4 mb-0'),
-                    Column('speciality', css_class='form-group col-md-4 mb-0'),
-                    Column('company', css_class='form-group col-md-4 mb-0'),
-                    css_class='form-row'
-                ),
-                Submit('submit', 'Rejoindre l&#39; espace membre '),
-            ) 
+        
 class ClientForm(forms.ModelForm):
 
     class Meta:
