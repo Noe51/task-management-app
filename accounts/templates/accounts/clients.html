@@ -48,12 +48,15 @@
         <td>{{client.name}}</td>
         <td>{{client.category}}</td>
         <td>{{client.date_created}}</td>
-        <td><button class="btn btn-sm btn-info">Add fund</button> <button class="btn btn-sm btn-outline-secondary">Manage</button></td>
+        <td><button onclick="unhideFundList()" class="btn btn-sm btn-info">Add fund</button> <button class="btn btn-sm btn-outline-secondary">Manage</button></td>
         
       </tr>
         {% endfor %}
     </tbody>
   </table>
+  
+
+
 </div>
 </div>
 
