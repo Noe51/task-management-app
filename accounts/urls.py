@@ -12,5 +12,6 @@ urlpatterns = [
 
 
     path('clients', views.clients, name='clients'),
+    path('funds', views.funds, name='funds'),
     
 ]

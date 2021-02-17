@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, HttpResponse
-from .models import Task, Client
+from .models import Task, Client, Fund
 from .forms import TaskForm, ClientForm, FundForm
-from .filters import TaskFilter, ClientFilter
+from .filters import TaskFilter, ClientFilter, FundFilter
 
 # Create your views here.
 
@@ -82,9 +82,13 @@ def clients(request):
     return render(request, 'accounts/clients.html',context) 
 
 def funds(request):
-    funds = Funds.objects.all()
-    context={'funds':funds}
-    return render(request, 'accounts/task_details.html',context) 
+    if request.method == 'GET':
+        funds = Fund.objects.all()
+        myFilter = FundFilter(request.GET, queryset=funds)
+        funds = myFilter.qs
+    
+    context={'funds':funds, 'myFilter':myFilter}
+    return render(request, 'accounts/funds.html',context) 
 
 def updateClient(request,pk):
     if request.method == 'GET':

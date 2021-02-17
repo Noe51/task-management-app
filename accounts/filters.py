@@ -3,7 +3,7 @@ from django_filters import ModelChoiceFilter
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Submit, Row, Column
 
-from .models import Task, Client, ClientCategory, Fund, Analyst
+from .models import Task, Client, ClientCategory, Fund, Analyst, FundCategory
 
 
 class ClientFilter(django_filters.FilterSet):
@@ -11,9 +11,16 @@ class ClientFilter(django_filters.FilterSet):
     category = ModelChoiceFilter(queryset=ClientCategory.objects.all())
     class Meta:
         model = Client
-        fields = ['name', 'category']
+        fields = ['name', 'category', ]
         exclude = []
 
+class FundFilter(django_filters.FilterSet):
+    name = ModelChoiceFilter(queryset=Fund.objects.all())
+    category = ModelChoiceFilter(queryset=FundCategory.objects.all())
+    class Meta:
+        model = Fund
+        fields = ['name', 'category', 'client']
+        exclude = []
 
 class TaskFilter(django_filters.FilterSet):
     # def __init__(self, *args, **kwargs):
@@ -30,7 +37,7 @@ class TaskFilter(django_filters.FilterSet):
     #         )
     assignee = ModelChoiceFilter(queryset=Analyst.objects.all())
     client = ModelChoiceFilter(queryset=Client.objects.all())
-    fund = ModelChoiceFilter(queryset=Fund.objects.all())
+    # fund = ModelChoiceFilter(queryset= Fund.objects.filter(client=client))
     reporter = ModelChoiceFilter(queryset=Analyst.objects.all())
     class Meta:
         model = Task
