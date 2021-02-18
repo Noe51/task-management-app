@@ -3,18 +3,37 @@
 {% load crispy_forms_tags %}
 
 {% block content%}
-
+<h1 class="display-4 text-center">
+    {{title}}
+</h1>
+<hr>
+<br>
 <div class="row">
-    
-  <div class="col-md-10 mx-auto container-fluid">
-      <a href="" class="btn btn-outline-primary btn-sm btn-block">Create fund</a>
-  </div>
 
-</div>
+    <div class="col-md-10 mx-auto container-fluid">
+        <div id="display-funds-button">
+            <button onclick="unhideFundForm()" class="btn btn-outline-primary btn-sm btn-block" >Create fund</button>
+                <hr>
+        </div>
+        
+        
+        <div style="display: none;" id="create-fund">
+            <form method="POST" action="" enctype="">
+                {% csrf_token %}
+                {% crispy form %}
+                <br>
+  
+  
+
+            </form>
+        </div>
+    </div>
+  </div>
+  
 
 
 <br>
-<div class="row">
+<div class="row" id="display-search-funds"> 
     <div class="col-md-10 mx-auto">
             <div class=" card-body">
                     <form method="get">
@@ -50,7 +69,10 @@
         <td>{{fund.category}}</td>
         <td>{{fund.client}}</td>
         <td>{{fund.date_created}}</td>
-        <td><button class="btn btn-sm btn-outline-secondary">Manage</button></td>
+        <td>
+            <a class="btn btn-sm btn-outline-secondary" href="{% url 'fund-details' fund.id %}">Manage</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'fund-delete' fund.id %}">Delete</a>
+        </td>
         
       </tr>
         {% endfor %}

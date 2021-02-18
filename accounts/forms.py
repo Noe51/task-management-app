@@ -65,12 +65,39 @@ class TaskForm(forms.ModelForm):
 
         
 class ClientForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.helper = FormHelper()
+            self.helper.layout = Layout(
+
+                Row(
+                    Column('name', css_class='form-group col-md-6 mb-2'),
+                    Column('category', css_class='form-group col-md-6 mb-2'),
+                    css_class='form-row'
+                ),
+                Submit('update', 'Create client', css_class='btn btn-block btn-sm btn-primary'),
+
+            ) 
 
     class Meta:
         model = Client
         fields= '__all__'
 
 class FundForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.helper = FormHelper()
+            self.helper.layout = Layout(
+
+                Row(
+                    Column('name', css_class='form-group col-md-4 mb-2'),
+                    Column('category', css_class='form-group col-md-4 mb-2'),
+                    Column('client', css_class='form-group col-md-4 mb-2'),
+                    css_class='form-row'
+                ),
+                Submit('update', 'Create fund', css_class='btn btn-block btn-sm btn-primary'),
+
+            ) 
 
     class Meta:
         model = Fund

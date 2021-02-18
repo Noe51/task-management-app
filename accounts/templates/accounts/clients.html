@@ -4,60 +4,82 @@
 
 {% block content%}
 
+<h1 class="display-4 text-center">
+  {{title}}
+</h1>
+<hr>
+<br>
 <div class="row">
-    
-  <div class="col-md-10 mx-auto container-fluid">
-      <a href="" class="btn btn-outline-primary btn-sm btn-block">Create client</a>
-  </div>
 
+  <div class="col-md-10 mx-auto container-fluid">
+      <div id="display-clients-button">
+          <button onclick="unhideClientForm()" class="btn btn-outline-primary btn-sm btn-block" >Create client</button>
+              <hr>
+      </div>
+      
+      
+      <div style="display: none;" id="create-client">
+          <form method="POST" action="" enctype="">
+              {% csrf_token %}
+              {% crispy form %}
+              <br>
+
+
+
+          </form>
+      </div>
+  </div>
 </div>
 
 
 <br>
-<div class="row">
-    <div class="col-md-10 mx-auto">
-            <div class=" card-body">
-                    <form method="get">
-                            {{myFilter.form}}
-                            <button class="btn btn-secondary btn-sm" type="submit">Search</button>
-                            
-                    </form>
-            </div>
+<div class="row" id="display-search-clients">
+  <div class="col-md-10 mx-auto">
+    <div class=" card-body">
+      <form method="get">
+        {{myFilter.form}}
+        <button class="btn btn-secondary btn-sm" type="submit">Search</button>
+
+      </form>
     </div>
+  </div>
 </div>
 <br>
 
 <div class="row">
   <div class="col-md-10 mx-auto">
 
-  
-<table class="table  table-striped">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Name</th>
-        <th scope="col">Type</th>
-        <th scope="col">Date created</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
+
+    <table class="table  table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Type</th>
+          <th scope="col">Date created</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
         {% for client in clients %}
-      <tr>
-        <th scope="row">{{client.id}}</th>
-        <td>{{client.name}}</td>
-        <td>{{client.category}}</td>
-        <td>{{client.date_created}}</td>
-        <td><button class="btn btn-sm btn-info">Add fund</button> <button class="btn btn-sm btn-outline-secondary">Manage</button></td>
-        
-      </tr>
+        <tr>
+          <th scope="row">{{client.id}}</th>
+          <td>{{client.name}}</td>
+          <td>{{client.category}}</td>
+          <td>{{client.date_created}}</td>
+          <td> 
+            <a href="{% url 'client-details' client.id %}" class="btn btn-sm btn-outline-secondary">Manage</a>
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'client-delete' client.id %}">Delete</a>
+          </td>
+
+        </tr>
         {% endfor %}
-    </tbody>
-  </table>
-  
+      </tbody>
+    </table>
 
 
-</div>
+
+  </div>
 </div>
 
 

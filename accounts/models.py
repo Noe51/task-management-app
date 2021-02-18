@@ -107,14 +107,14 @@ class Analyst(models.Model):
 
 class Task(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
-    client = models.ForeignKey(Client, on_delete=models.PROTECT, blank=True, null=True)
-    fund = models.ForeignKey(Fund, on_delete=models.PROTECT, blank=True, null=True)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE, blank=True, null=True)
+    fund = models.ForeignKey(Fund, on_delete=models.CASCADE, blank=True, null=True)
     # description = models.TextField(max_length=1000, blank=True, null=True)
     periodicity = models.CharField(max_length=1000, blank=True, null=True)
     time_to_complete = models.FloatField()
     current_advancement = models.FloatField()
-    assignee = models.ForeignKey(Analyst, blank=True, null=True, on_delete=models.PROTECT, related_name='%(class)s_tasks_assigned')
-    reporter = models.ForeignKey(Analyst, blank=True, null=True, on_delete=models.PROTECT, related_name='%(class)s_tasks_reported')
+    assignee = models.ForeignKey(Analyst, blank=True, null=True, on_delete=models.CASCADE, related_name='%(class)s_tasks_assigned')
+    reporter = models.ForeignKey(Analyst, blank=True, null=True, on_delete=models.CASCADE, related_name='%(class)s_tasks_reported')
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def progress(self):

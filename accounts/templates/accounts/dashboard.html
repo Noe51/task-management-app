@@ -12,7 +12,7 @@
 <div class="row">
 
     <div class="col-md-10 mx-auto container-fluid">
-        <div id="display-button">
+        <div id="display-tasks-button">
             <button onclick="unhideTaskForm()" class="btn btn-outline-primary btn-sm btn-block" >Create new
                 task</button>
                 <hr>
@@ -31,7 +31,7 @@
         </div>
     </div>
 </div>
-<div class="row" id="display-tasks">
+<div class="row" id="display-search-tasks">
     <div class="col-md-10  mx-auto">
         <div class="card-body">
             <form method="get">
@@ -62,7 +62,7 @@
                 <a class="form-control text-primary" href="{% url 'task-details' task.id %}">{{task.title}}</a>
                 
                 <div class="input-group-append" >
-                    <div class="input-group-text" style="background-color:red;"><a href="{% url 'delete' task.id %}" style="color:white;">x</a></div>
+                    <div class="input-group-text" style="background-color:red;"><a href="{% url 'task-delete' task.id %}" style="color:white;">x</a></div>
                     
                 </div>
             </div>

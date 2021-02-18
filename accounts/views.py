@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect, HttpResponse
+
 from .models import Task, Client, Fund
 from .forms import TaskForm, ClientForm, FundForm
 from .filters import TaskFilter, ClientFilter, FundFilter
-
-# Create your views here.
 
 def home(request):
     current_analyst = request.user.analyst
@@ -19,7 +18,6 @@ def home(request):
     if request.method == 'POST':
         form = TaskForm(request.POST, {'assignee':current_analyst})
         if form.is_valid():
-            print('redirected')
             new_assignee = form.save(commit=False)
             new_assignee.assignee = current_analyst
             new_assignee.save()
@@ -28,6 +26,7 @@ def home(request):
 
     context={'title':title, 'my_tasks':my_tasks, 'form':form, 'myFilter':myFilter}
     return render(request, 'accounts/dashboard.html',context)
+
 
 def check(request):
     current_analyst = request.user.analyst
@@ -51,9 +50,46 @@ def check(request):
     context={'title':title,'my_tasks':my_tasks, 'form':form, 'myFilter':myFilter}
     return render(request, 'accounts/dashboard.html',context)
 
-def updateTask(request,pk):
+
+def clients(request):
+    title = 'Clients'
     if request.method == 'GET':
-        task = Task.objects.get(id=pk)
+        clients = Client.objects.all()
+        myFilter = ClientFilter(request.GET, queryset=clients)
+        clients = myFilter.qs
+        form = ClientForm
+
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/clients/")
+    
+    context={'title': title,'clients':clients, 'form':form,  'myFilter':myFilter}
+    return render(request, 'accounts/clients.html',context) 
+
+
+def funds(request):
+    title = 'Funds'
+    if request.method == 'GET':
+        funds = Fund.objects.all()
+        myFilter = FundFilter(request.GET, queryset=funds)
+        funds = myFilter.qs
+        form = FundForm
+    
+    if request.method == 'POST':
+        form = FundForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("/funds/")
+
+    context={'title': title,'funds':funds, 'form':form, 'myFilter':myFilter}
+    return render(request, 'accounts/funds.html',context)
+
+
+def updateTask(request,pk):
+    task = Task.objects.get(id=pk)
+    if request.method == 'GET':
         form = TaskForm(instance=task)
 
     if request.method == 'POST':
@@ -62,7 +98,39 @@ def updateTask(request,pk):
             form.save()
             return redirect("/")
     context={'form':form}
-    return render(request, 'accounts/task_details.html',context)
+    return render(request, 'accounts/details.html',context)
+
+
+
+def updateClient(request,pk):
+    client = Client.objects.get(id=pk)
+    if request.method == 'GET':
+        form = ClientForm(instance=client)
+
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+        if form.is_valid():
+            form = ClientForm(request.POST, instance=client)
+            form.save()
+            return redirect("clients")
+    context={'form':form}
+    return render(request, 'accounts/details.html',context) 
+
+
+def updateFund(request,pk):
+    fund = Fund.objects.get(id=pk)
+    if request.method == 'GET':
+        form = FundForm(instance=fund)
+        
+    if request.method == 'POST':
+        form = FundForm(request.POST)
+        if form.is_valid():
+            form = FundForm(request.POST, instance=fund)
+            form.save()
+            return redirect("funds")
+    context={'form':form}
+    return render(request, 'accounts/details.html',context) 
+
 
 def deleteTask(request,pk):
     if request.method == 'GET':
@@ -72,48 +140,17 @@ def deleteTask(request,pk):
     return HttpResponse('error: could not delete task: '+task.id)
 
 
-def clients(request):
-    if request.method == 'GET':
-        clients = Client.objects.all()
-        myFilter = ClientFilter(request.GET, queryset=clients)
-        clients = myFilter.qs
-    
-    context={'clients':clients, 'myFilter':myFilter}
-    return render(request, 'accounts/clients.html',context) 
-
-def funds(request):
-    if request.method == 'GET':
-        funds = Fund.objects.all()
-        myFilter = FundFilter(request.GET, queryset=funds)
-        funds = myFilter.qs
-    
-    context={'funds':funds, 'myFilter':myFilter}
-    return render(request, 'accounts/funds.html',context) 
-
-def updateClient(request,pk):
+def deleteClient(request,pk):
     if request.method == 'GET':
         client = Client.objects.get(id=pk)
-        form = ClientForm(instance=client)
+        client.delete()
+        return redirect ('clients')
+    return HttpResponse('error: could not delete client: '+client.id)
 
-    if request.method == 'POST':
-        form = ClientForm(request.POST)
-        if form.is_valid():
-            form = ClientForm(request.POST, instance=client)
-            form.save()
-            return redirect("/")
-    context={'form':form}
-    return render(request, 'accounts/task_details.html',context) 
 
-def updateFund(request,pk):
+def deleteFund(request,pk):
     if request.method == 'GET':
         fund = Fund.objects.get(id=pk)
-        form = FundForm(instance=fund)
-        
-    if request.method == 'POST':
-        form = FundForm(request.POST)
-        if form.is_valid():
-            form = FundForm(request.POST, instance=fund)
-            form.save()
-            return redirect("/")
-    context={'form':form}
-    return render(request, 'accounts/task_details.html',context) 
+        fund.delete()
+        return redirect ('fund')
+    return HttpResponse('error: could not delete fund: '+fund.id)
