@@ -103,7 +103,7 @@ class Analyst(models.Model):
         return freetime
 
     def __str__(self):
-        return str(self.id)
+        return str(self.first_name)
 
 class Task(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
@@ -118,7 +118,7 @@ class Task(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, null=True)
 
     def progress(self):
-        progress = self.current_advancement / self.time_to_complete *100
+        progress = self.current_advancement / self.time_to_complete *100.0
         return progress
 
     def __str__(self):
